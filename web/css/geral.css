@@ -1,0 +1,22 @@
+/* TEMPLATE STYLES */
+main {
+    margin-top: 0rem;
+}
+main .card {
+    margin-bottom: 2rem;
+}
+@media only screen and (max-width: 768px) {
+    .read-more {
+        text-align: center;
+    }
+}
+
+.style-tab{
+    border: 1px solid #30cfc0;
+    border-radius: 4px;
+}
+
+#matriz-curricular-svg {
+    width: 140%;
+    height: 140%;
+}

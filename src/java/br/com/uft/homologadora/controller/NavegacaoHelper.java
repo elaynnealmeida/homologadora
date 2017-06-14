@@ -21,7 +21,19 @@ public class NavegacaoHelper {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }   
+    }  
+    
+    public void inicio() throws IOException {
+        ExternalContext externalContext = FacesContext.getCurrentInstance()
+                .getExternalContext();
+        try {
+            externalContext.redirect(externalContext.getRequestContextPath()
+                    + "/faces/index.xhtml");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
     
      public void cadastrar_empresa_requerente() throws IOException {
         ExternalContext externalContext = FacesContext.getCurrentInstance()
