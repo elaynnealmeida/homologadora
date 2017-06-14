@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Homologadora - Cadastro de Empresa</title>
+    </h:head>
+    <h:body>
+        <h:form id="formempresarequerente">
+            <h2>
+                <h:outputText value="Cadastro de Empresa " />
+            </h2>
+            <hr>
+                <h:panelGrid columns="4" cellpadding="5" style="margin-bottom:10px">
+                    <h:outputText value="Razão Social: " style="font-weight:bold"/>
+                    <h:inputText id="razaosocial" style="width: 400px" value="#{empresaRequerenteControler.instancia.razaoSocial}" size="50" required="true" />*
+                    <p:message for="razaosocial" />
+
+                    <h:outputText value="CNPJ: " style="font-weight:bold"/>
+                    <p:inputMask id="cnpj"  value="#{empresaRequerenteControler.instancia.cnpj}" mask="99.999.999.9999-99"/>*
+                    <p:message for="cnpj" />
+
+                    <h:outputText value="Endereço: " style="font-weight:bold"/>
+                    <h:inputText id="endereco" value="#{empresaRequerenteControler.instancia.endereco}" size="50" required="true" />*
+                    <p:message for="endereco" />
+                    
+                    <h:outputText value="Inscrição Estadual: " style="font-weight:bold"/>
+                    <p:inputMask id="inscestadual"  value="#{empresaRequerenteControler.instancia.inscricaoEstadual}" mask="99.999.999-9"/>*
+                    <p:message for="inscestadual" />
+                    
+                    <h:outputText value="Inscrição Municipal: " style="font-weight:bold"/>
+                    <p:inputMask id="inscmunicipal"  value="#{empresaRequerenteControler.instancia.inscricaoMunicipal}" mask="99/999/9"/>*
+                    <p:message for="inscmunicipal" />
+                    
+                    <h:outputText value="Telefone: " style="font-weight:bold"/>
+                    <h:inputText id="telefone" value="#{empresaRequerenteControler.instancia.telefone}" size="50" required="true" />*
+                    <p:message for="telefone" />
+                    
+                    <h:outputText value="Email: " style="font-weight:bold"/>
+                    <h:inputText id="email" value="#{empresaRequerenteControler.instancia.email}" size="50" required="true" />*
+                    <p:message for="email" />
+                    
+                    <h:outputText value="Contato: " style="font-weight:bold"/>
+                    <h:inputText id="contato" value="#{empresaRequerenteControler.instancia.contato}" size="50" required="true" />*
+                    <p:message for="contato" />
+                    
+                    <h:outputText value="Registro na junta comercial ou cartório: " style="font-weight:bold"/>
+                    <h:inputText id="registro" value="#{empresaRequerenteControler.instancia.registroJuntaComercialCartorio}" size="50" required="true" />*
+                    <p:message for="registro" />
+                    
+                    <h:outputText value="Nome do Responsável: " style="font-weight:bold"/>
+                    <h:inputText id="nomeresponsavel" value="#{empresaRequerenteControler.instancia.responsavelNome}" size="50" required="true" />*
+                    <p:message for="nomeresponsavel" />
+
+                    <h:outputText value="CPF do Responsável: " style="font-weight:bold"/>
+                    <p:inputMask id="cpfresponsavel"  value="#{empresaRequerenteControler.instancia.responsavelCpf}" mask="999.999.999-99"/>*
+                    <p:message for="cpfresponsavel" />
+                    
+                    <h:outputText value="RG do Responsável: " style="font-weight:bold"/>
+                    <h:inputText id="rgresponsavel" value="#{empresaRequerenteControler.instancia.responsavelRg}" size="50" required="true" />*
+                    <p:message for="rgresponsavel" />
+                    
+                </h:panelGrid>
+            </hr>
+
+            <p:commandButton class="btn btn-primary btn-sm" id="btnSalvar" value="Salvar" action="#{empresaRequerenteControler.salvar}" rendered="#{!empresaRequerenteControler.isEdit}" update="formempresarequerente"/>
+            <p:commandButton class="btn btn-primary btn-sm" id="btnAtualizar" value="Atualizar" action="#{empresaRequerenteControler.atualizar}" rendered="#{empresaRequerenteControler.isEdit}" update="formempresarequerente"/>
+            <p:commandButton class="btn btn-primary btn-sm" id="btnDeletar" value="Deletar" oncomplete="PF('confirmation').show()" update="formempresarequerente:confimacao"/>
+            <p:commandButton class="btn btn-primary btn-sm" id="btnLimpar" value="Limpar" action="#{empresaRequerenteControler.limpar}" update="formempresarequerente"/>
+            <br></br><br></br>
+
+            <hr>
+                <p:dataTable var="var" value="#{empresaRequerenteControler.instancias}"
+                             selectionMode="single"  rowKey="#{var.id}"
+                             emptyMessage="Nenhum Registro Encontrado"
+                             widgetVar="varTable"
+                             filteredValue="#{empresaRequerenteControler.instanciasFiltradas}"
+                             rows="10"
+                             paginator="true"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,15"
+                             tableStyleClass="table table-bordered table-striped"
+                             style="border-width: medium"
+                             >
+                    <f:facet name="header">
+                        <p:outputPanel>
+                            <h:outputText value="Pesquisar:" style="font-weight:bold"/>
+                            <p:inputText id="globalFilter" onkeyup="PF('varTable').filter()" 
+                                         style="width:150px" placeholder="Usuário"
+                                         />
+                        </p:outputPanel>
+                    </f:facet>
+                    <p:ajax event="rowSelect" listener="#{empresaRequerenteControler.onRowSelect}" update="formempresarequerente" />
+                    <p:column headerText="Id">
+                        <h:outputText value="#{var.id}" />
+                    </p:column>
+
+                    <p:column headerText="Razão Social" filterBy="#{var.razaoSocial}" filterStyle="display:none" >
+                        <h:outputText value="#{var.razaoSocial}" />
+                    </p:column>
+
+                    <p:column headerText="CNPJ">
+                        <h:outputText value="#{var.cnpj}" />
+                    </p:column>
+
+                    <p:column headerText="Responsável">
+                        <h:outputText value="#{var.responsavelNome}" />
+                    </p:column>
+
+                </p:dataTable>
+            </hr>
+            <p:messages id="msg" autoUpdate="true" closable="true" >              
+            </p:messages>
+
+            <p:confirmDialog id="confimacao" message="Deseja mesmo excluir?" showEffect="bounce"
+                             hideEffect="explode" header="Confirmação" severity="info" widgetVar="confirmation">
+
+                <p:commandButton value="Sim" update="formempresarequerente" onclick="PF('confirmation').hide()"
+                                 action="#{empresaRequerenteControler.deletar}" />
+
+                <p:commandButton value="Não" onclick="PF('confirmation').hide(); return true;" />
+            </p:confirmDialog>
+
+
+        </h:form>
+    </h:body>
+</html>
+

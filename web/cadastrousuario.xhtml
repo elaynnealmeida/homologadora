@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Homologadora - Cadastro de Usuário</title>
+    </h:head>
+    <h:body>
+        <h:form id="formusuario">
+            <h2>
+                <h:outputText value="Cadastro de Usuário " />
+            </h2>
+            <hr>
+                <h:panelGrid columns="4" cellpadding="5" style="margin-bottom:10px">
+                    <h:outputText value="Nome: " style="font-weight:bold"/>
+                    <h:inputText id="nome" style="width: 400px" value="#{usuarioController.instancia.nome}" size="50" required="true" />*
+                    <p:message for="nome" />
+
+                    <h:outputText value="E-mail: " style="font-weight:bold"/>
+                    <h:inputText id="email" value="#{usuarioController.instancia.email}" size="50" required="true" />*
+                    <p:message for="email" />
+
+                    <h:outputText value="CPF/CNPJ " style="font-weight:bold"/>
+                    <h:inputText id="cpfcnpj" value="#{usuarioController.instancia.cpfCnpj}" size="50" required="true" />*
+                    <p:message for="cpfcnpj" />
+
+                    <h:outputText value="Telefone: " style="font-weight:bold"/>
+                    <h:inputText id="telefone" value="#{usuarioController.instancia.telefone}" size="50" required="true" />*
+                    <p:message for="telefone" />
+
+                    <h:outputText value="Senha: " style="font-weight:bold"/>
+                    <h:inputSecret id="senha" value="#{usuarioController.instancia.senha}" size="50" required="true" />*
+                    <p:message for="senha" />
+
+                    <h:outputLabel    value="Perfis:" style="font-weight:bold; font-size: medium" />
+                    <h:selectOneMenu id="perfil" value="#{usuarioController.instancia.perfil}"  
+                                     requiredMessage="Campo Obrigatório"
+                                     required="true">
+                        <f:selectItem itemLabel="Administrador" itemValue="Administrador" />
+                        <f:selectItem itemLabel="Órgão Tecnico" itemValue="Órgão Tecnico" />
+                        <f:selectItem itemLabel="Empresa Requerente" itemValue="Empresa Requerente" />               
+                    </h:selectOneMenu>*
+                    <p:message for="perfil" />
+                </h:panelGrid>
+            </hr>
+
+            <p:commandButton class="btn btn-primary btn-sm" id="btnSalvar" value="Salvar" action="#{usuarioController.salvar}" rendered="#{!usuarioController.isEdit}" update=":formusuario"/>
+            <p:commandButton class="btn btn-primary btn-sm" id="btnAtualizar" value="Atualizar" action="#{usuarioController.atualizar}" rendered="#{usuarioController.isEdit}" update=":formusuario"/>
+            <p:commandButton class="btn btn-primary btn-sm" id="btnDeletar" value="Deletar" oncomplete="PF('confirmation').show()" update=":formusuario:confimacao"/>
+            <p:commandButton class="btn btn-primary btn-sm" id="btnLimpar" value="Limpar" action="#{usuarioController.limpar}" update=":formusuario"/>
+            <br></br><br></br>
+
+            <hr>
+                <p:dataTable var="var" value="#{usuarioController.instancias}"
+                             selectionMode="single"  rowKey="#{var.id}"
+                             emptyMessage="Nenhum Registro Encontrado"
+                             widgetVar="varTable"
+                             filteredValue="#{usuarioController.instanciasFiltradas}"
+                             rows="10"
+                             paginator="true"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,15"
+                             tableStyleClass="table table-bordered table-striped"
+                             style="border-width: medium"
+                             >
+                    <f:facet name="header">
+                        <p:outputPanel>
+                            <h:outputText value="Pesquisar:" style="font-weight:bold"/>
+                            <p:inputText id="globalFilter" onkeyup="PF('varTable').filter()" 
+                                         style="width:150px" placeholder="Usuário"
+                                         />
+                        </p:outputPanel>
+                    </f:facet>
+                    <p:ajax event="rowSelect" listener="#{usuarioController.onRowSelect}" update=":formusuario" />
+                    <p:column headerText="Id">
+                        <h:outputText value="#{var.id}" />
+                    </p:column>
+
+                    <p:column headerText="Nome" filterBy="#{var.nome}" filterStyle="display:none" >
+                        <h:outputText value="#{var.nome}" />
+                    </p:column>
+
+                    <p:column headerText="Email/Login">
+                        <h:outputText value="#{var.email}" />
+                    </p:column>
+
+                    <p:column headerText="CPF/CNPJ">
+                        <h:outputText value="#{var.cpfCnpj}" />
+                    </p:column>
+
+                </p:dataTable>
+            </hr>
+            <p:messages id="msg" autoUpdate="true" closable="true" >              
+            </p:messages>
+
+            <p:confirmDialog id="confimacao" message="Deseja mesmo excluir?" showEffect="bounce"
+                             hideEffect="explode" header="Confirmação" severity="info" widgetVar="confirmation">
+
+                <p:commandButton value="Sim" update=":formusuario" onclick="PF('confirmation').hide()"
+                                 action="#{usuarioController.deletar}" />
+
+                <p:commandButton value="Não" onclick="PF('confirmation').hide(); return true;" />
+            </p:confirmDialog>
+
+
+        </h:form>
+    </h:body>
+</html>
+
