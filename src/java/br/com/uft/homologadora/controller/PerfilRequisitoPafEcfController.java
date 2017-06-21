@@ -1,18 +1,19 @@
+
 package br.com.uft.homologadora.controller;
 
-import br.com.uft.homologadora.dao.EmpresaRequerenteDAO;
-import br.com.uft.homologadora.dao.UsuarioDAO;
-import br.com.uft.homologadora.model.EmpresaRequerente;
-import br.com.uft.homologadora.model.Usuario;
-import br.com.uft.homologadora.util.Servicos;
+import br.com.uft.homologadora.dao.EstadoDAO;
+import br.com.uft.homologadora.dao.PerfilRequisitoPafEcfDAO;
+import br.com.uft.homologadora.model.Estado;
+import br.com.uft.homologadora.model.PerfilRequisitoPafEcf;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import org.primefaces.event.SelectEvent;
 
 /**
@@ -21,50 +22,31 @@ import org.primefaces.event.SelectEvent;
  */
 @ManagedBean
 @ViewScoped
-public class EmpresaRequerenteControler implements Serializable {
+public class PerfilRequisitoPafEcfController implements Serializable {
 
-    private EmpresaRequerente instancia;
-    private Usuario user;
-    private UsuarioDAO userDao;
-    private EmpresaRequerenteDAO dao;
-    private List<EmpresaRequerente> instancias;
-    private List<EmpresaRequerente> instanciasFiltradas;
+    private PerfilRequisitoPafEcf instancia;
+    private PerfilRequisitoPafEcfDAO dao;
+    private List<PerfilRequisitoPafEcf> instancias;
+    private List<PerfilRequisitoPafEcf> instanciasFiltradas;
     private boolean isEdit;
 
     @PostConstruct
     public void init() {
-        this.instancia = new EmpresaRequerente();
-        this.user = new Usuario();
-        this.userDao = new UsuarioDAO();
-        this.dao = new EmpresaRequerenteDAO();
+        this.instancia = new PerfilRequisitoPafEcf();
+        this.dao = new PerfilRequisitoPafEcfDAO();
         this.isEdit = false;
         listar();
     }
 
     public void limpar() {
-        this.instancia = new EmpresaRequerente();
-        this.user = new Usuario();
+        this.instancia = new PerfilRequisitoPafEcf();
         this.isEdit = false;
         this.instancias = listar();
     }
 
     public void salvar() {
         try {
-            Servicos s = new Servicos();
-            String senha = new String();
-            senha = s.criptografa(gerarSenha());
-            user.setCpfCnpj(instancia.getCnpj());
-            user.setEmail(instancia.getEmail());
-            user.setSenha(senha);
-            user.setNome(instancia.getRazaoSocial());
-            user.setTelefone(instancia.getTelefone());
-            user.setPerfil("Empresa Requerente");
-
-            userDao.salvar(user);
-            instancia.setUsuario(user);
             dao.salvar(instancia);
-
-            s.enviarEmail(user, senha);
             limpar();
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Inserido com Sucesso!", null);
             FacesContext.getCurrentInstance().addMessage(null, message);
@@ -92,15 +74,11 @@ public class EmpresaRequerenteControler implements Serializable {
 
     public void deletar() {
         try {
-            //  if (instancia) {
             dao.deletar(instancia);
             FacesMessage msg = new FacesMessage("Excluido com Sucesso!");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             limpar();
-            /* } else {
-                FacesMessage msg = new FacesMessage("Valor não pode ser excluido!");
-                FacesContext.getCurrentInstance().addMessage(null, msg);
-            }*/
+            
 
         } catch (Exception e) {
             limpar();
@@ -108,46 +86,50 @@ public class EmpresaRequerenteControler implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, message);
         }
     }
-
-    public String gerarSenha() {
-        UUID uuid = UUID.randomUUID();
-        String myRandom = uuid.toString();
-        String senha = myRandom.substring(0, 6);
-        System.out.println("senha: " + senha);
-        return senha;
-    }
-
-    public List<EmpresaRequerente> listar() {
+    public List<PerfilRequisitoPafEcf> listar() {
         this.instancias = dao.listarTodos();
         return this.instancias;
     }
 
     public void onRowSelect(SelectEvent event) {
-        this.instancia = ((EmpresaRequerente) event.getObject());
+        this.instancia = ((PerfilRequisitoPafEcf) event.getObject());
         this.isEdit = true;
     }
+    
+    public List<SelectItem> getEstado() {
+        System.out.println("entrou no listar estados: ");
+        List<SelectItem> toReturn = new ArrayList<SelectItem>();
+        EstadoDAO tpdDao = new EstadoDAO();
+        List<Estado> result = new ArrayList<Estado>();
+        result = tpdDao.listarTodos();
+        for (int i = 0; i < result.size(); i++) {
+            toReturn.add(new SelectItem(result.get(i), result.get(i).getSigla()));
+            //System.out.println("perfil: " + result.get(i).toString());
+        }
+        return toReturn;
+    }
 
-    public EmpresaRequerente getInstancia() {
+    public PerfilRequisitoPafEcf getInstancia() {
         return instancia;
     }
 
-    public void setInstancia(EmpresaRequerente instancia) {
+    public void setInstancia(PerfilRequisitoPafEcf instancia) {
         this.instancia = instancia;
     }
 
-    public List<EmpresaRequerente> getInstancias() {
+    public List<PerfilRequisitoPafEcf> getInstancias() {
         return instancias;
     }
 
-    public void setInstancias(List<EmpresaRequerente> instancias) {
+    public void setInstancias(List<PerfilRequisitoPafEcf> instancias) {
         this.instancias = instancias;
     }
 
-    public List<EmpresaRequerente> getInstanciasFiltradas() {
+    public List<PerfilRequisitoPafEcf> getInstanciasFiltradas() {
         return instanciasFiltradas;
     }
 
-    public void setInstanciasFiltradas(List<EmpresaRequerente> instanciasFiltradas) {
+    public void setInstanciasFiltradas(List<PerfilRequisitoPafEcf> instanciasFiltradas) {
         this.instanciasFiltradas = instanciasFiltradas;
     }
 
@@ -158,5 +140,5 @@ public class EmpresaRequerenteControler implements Serializable {
     public void setIsEdit(boolean isEdit) {
         this.isEdit = isEdit;
     }
-
+    
 }

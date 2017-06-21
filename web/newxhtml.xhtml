@@ -1,0 +1,177 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+        <title>Homologadora - Cadastros Auxiliares</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta http-equiv="X-UA-Conpatible" content="IE=edge" />
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css"></link>
+        <!-- Bootstrap core CSS -->
+        <link href="css/bootstrap.min.css" rel="stylesheet"></link>
+        <h:outputStylesheet library="css" name="bootstrap.min.css"></h:outputStylesheet>
+        <!-- Material Design Bootstrap -->
+        <link href="css/signin.css" rel="stylesheet"></link>
+        <link href="css/mdb.min.css" rel="stylesheet"></link>
+    </h:head>
+    <ui:insert name="menu">
+        <ui:include src="menu.xhtml"/>
+    </ui:insert>
+    <h:body>
+        <!--Corpo-->
+        <main>
+            <!--Main layout-->
+            <div class="container">
+                <br></br>
+                <div class="row">
+                    <!--Main column-->
+                    <div class="col-lg-9">
+                        <h:form id="formpeafecf" enctype="multipart/form-data">
+                            <h2>
+                                <h:outputText value="PAF-ECF" />
+                            </h2>
+                            <hr>
+                              
+
+                                      
+                                            <h:panelGrid columns="4" cellpadding="5" style="margin-bottom:10px">
+                                                <h:outputText value="Nome Comercial: " style="font-weight:bold"/>
+                                                <h:inputText id="nomecomercial" style="width: 400px" value="#{pafEcfController.instancia.nomeComercial}" size="50" required="true" />*
+                                                <p:message for="nomecomercial" />
+
+                                                <h:outputText value="Versão: " style="font-weight:bold"/>
+                                                <h:inputText id="versao" style="width: 400px" value="#{pafEcfController.instancia.versao}" size="50" required="true" />*
+                                                <p:message for="versao" />
+
+                                                <h:outputText value="Nome do Principal arquivo Executável: " style="font-weight:bold"/>
+                                                <h:inputText id="nomeprincarqexecutavel" style="width: 400px" value="#{pafEcfController.instancia.nomeDoPrincipalArqExecutavel}" size="50" required="true" />*
+                                                <p:message for="nomeprincarqexecutavel" />
+
+                                                <h:outputText value="MD5 do Nome do Principal arquivo Executável: " style="font-weight:bold"/>
+                                                <h:inputText id="md5nomeprincarqexecutavel" style="width: 400px" value="#{pafEcfController.instancia.nomeDoPrincipalArqExecutavelMd5}" size="50" required="true" />*
+                                                <p:message for="md5nomeprincarqexecutavel" />
+
+                                                <h:outputText value="Nome do Arquivo com Relação de Arquivos Executavéis que realizam procedimentos: " style="font-weight:bold"/>
+                                                <h:inputText id="nomearqcomreldearqsexecqrealproced" style="width: 400px" value="#{pafEcfController.instancia.nomeArqComRelacaoArqsExecutaveisQRealizamProcedimentos}" size="50" required="true" />*
+                                                <p:message for="nomearqcomreldearqsexecqrealproced" />
+
+                                                <h:outputText value="MD5 do Nome do Arquivo com Relação de Arquivos Executavéis que realizam procedimentos: " style="font-weight:bold"/>
+                                                <h:inputText id="md5nomearqcomreldearqsexecqrealproced" style="width: 400px" value="#{pafEcfController.instancia.nomeArqComRelArqsExecutaveisQRealizamProcedimentosMd5}" size="50" required="true" />*
+                                                <p:message for="md5nomearqcomreldearqsexecqrealproced" />
+
+                                                <h:outputText value="Linguagem de Programação: " style="font-weight:bold"/>
+                                                <h:inputText id="linguagemdeprogramacao" style="width: 400px" value="#{pafEcfController.instancia.linguagemDeProgramacao}" size="50" required="true" />*
+                                                <p:message for="linguagemdeprogramacao" />
+
+                                                <h:outputText value="Sistema Operacional: " style="font-weight:bold"/>
+                                                <h:inputText id="so" style="width: 400px" value="#{pafEcfController.instancia.sistemaOperacional}" size="50" required="true" />*
+                                                <p:message for="so" />
+
+                                                <h:outputText value="Gerenciador de Banco de Dados: " style="font-weight:bold"/>
+                                                <h:inputText id="gbd" style="width: 400px" value="#{pafEcfController.instancia.gerenciadorBancoDados}" size="50" required="true" />*
+                                                <p:message for="gbd" />
+
+                                                <h:outputText value="Tamanho: " style="font-weight:bold"/>
+                                                <h:inputText id="tamanho" style="width: 400px" value="#{pafEcfController.instancia.tamanho}" size="50" required="true" />*
+                                                <p:message for="tamanho" />
+
+                                                <h:outputText value="Data de Geração: " style="font-weight:bold"/>
+                                                <p:inputMask id="dtgeracao"  value="#{pafEcfController.instancia.dataGeracao}" mask="99/99/9999" required="true"/>*
+                                                <p:message for="dtgeracao" />
+
+                                                <h:outputText value="Arquivo Que Contém a Relação dos Arquivos Executáveis 
+                                                              que Realizam os Procedimentos Contantes da PAF-ECF: " style="font-weight:bold"/>
+                                                <p:fileUpload value="#{pafEcfController.file}" label="Procurar" mode="simple" skinSimple="true" 
+                                                              update="msg" id="arq"    requiredMessage="Arquivo Obrigatório" 
+                                                              required="true" sizeLimit="200000"  allowTypes="/(\.|\/)(jpe?g|png)$/"
+                                                              invalidFileMessage="Somente .docx ou .txt são permitidos."
+                                                              invalidSizeMessage="Limite do tamanho do arquivo é de 2 mb."
+                                                              />
+                                                <h:message for="arq" />
+
+                                            </h:panelGrid>
+
+
+
+                            </hr>
+
+                            <p:commandButton class="btn btn-primary btn-sm" id="btnSalvar" value="Salvar" actionListener="#{pafEcfController.salvar}" rendered="#{!pafEcfController.isEdit}" update="formpeafecf"/>
+                            <p:commandButton class="btn btn-primary btn-sm" id="btnAtualizar" value="Atualizar" actionListener="#{pafEcfController.atualizar}" rendered="#{pafEcfController.isEdit}" update="formpeafecf"/>
+                            <p:commandButton class="btn btn-primary btn-sm" id="btnDeletar" value="Deletar" oncomplete="PF('confirmation').show()" update="formpeafecf:confimacao"/>
+                            <p:commandButton class="btn btn-primary btn-sm" id="btnLimpar" value="Limpar" action="#{pafEcfController.limpar}" update="formpeafecf"/>
+                            <br></br><br></br>
+
+                            <hr>
+                                <p:dataTable var="var" value="#{pafEcfController.instancias}"
+                                             selectionMode="single"  rowKey="#{var.id}"
+                                             emptyMessage="Nenhum Registro Encontrado"
+                                             widgetVar="varTable"
+                                             filteredValue="#{pafEcfController.instanciasFiltradas}"
+                                             rows="10"
+                                             paginator="true"
+                                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             rowsPerPageTemplate="5,10,15"
+                                             tableStyleClass="table table-bordered table-striped"
+                                             style="border-width: medium"
+                                             >
+                                    <f:facet name="header">
+                                        <p:outputPanel>
+                                            <h:outputText value="Pesquisar:" style="font-weight:bold"/>
+                                            <p:inputText id="globalFilter" onkeyup="PF('varTable').filter()" 
+                                                         style="width:150px" placeholder="Pesquisar"
+                                                         />
+                                        </p:outputPanel>
+                                    </f:facet>
+                                    <p:ajax event="rowSelect" listener="#{pafEcfController.onRowSelect}" update="formpeafecf" />
+                                    <p:column headerText="Id">
+                                        <h:outputText value="#{var.id}" />
+                                    </p:column>
+
+                                    <p:column headerText="Nome Comercial" filterBy="#{var.nomeComercial}" filterStyle="display:none" >
+                                        <h:outputText value="#{var.nomeComercial}" />
+                                    </p:column>    
+                                    
+                                    <p:column headerText="Nome do Responsável" filterBy="#{var.nomeResponsavel}" filterStyle="display:none" >
+                                        <h:outputText value="#{var.nomeResponsavel}" />
+                                    </p:column>    
+
+                                </p:dataTable>
+                            </hr>
+                            <p:messages id="msg" autoUpdate="true" closable="true" >              
+                            </p:messages>
+
+                            <p:confirmDialog id="confimacao" message="Deseja mesmo excluir?" showEffect="bounce"
+                                             hideEffect="explode" header="Confirmação" severity="info" widgetVar="confirmation">
+
+                                <p:commandButton value="Sim" update="formpeafecf" onclick="PF('confirmation').hide()"
+                                                 action="#{pafEcfController.deletar}" />
+
+                                <p:commandButton value="Não" onclick="PF('confirmation').hide(); return true;" />
+                            </p:confirmDialog>
+
+
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+            <!--/.Main layout-->
+        </main>                       
+    </h:body>
+    <!--Corpo-->
+    <ui:insert name="footer" >
+        <ui:include src="footer.xhtml"/>   
+    </ui:insert>
+    <!--Footer-->
+    <!-- Impotando os js para funcionar internamente <-->
+    <ui:insert name="extensao" >
+        <ui:include src="js_interno.xhtml"/>   
+    </ui:insert>
+</html>
+

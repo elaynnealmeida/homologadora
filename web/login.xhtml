@@ -27,13 +27,16 @@
     </ui:insert>
     <h:body>
         <h:form>
-            <h:commandLink value="Cadastrar Usuário" actionListener="#{navegacaoHelper.cadastrar_usuario()}"></h:commandLink><br></br>
-            <h:commandLink value="Cadastrar Empresa" actionListener="#{navegacaoHelper.cadastrar_empresa_requerente()}"></h:commandLink><br></br>
-            <h:commandLink value="Cadastrar Integração de PAF" actionListener="#{navegacaoHelper.integracao_paf()}"></h:commandLink><br></br>
-            <h:commandLink value="Cadastrar Meio de Geração de Arquivo Sintegra" actionListener="#{navegacaoHelper.meio_geracao_arq_sintegra()}"></h:commandLink><br></br>
-            <h:commandLink value="Cadastrar Perfil de Requisito PAF-ECF" actionListener="#{navegacaoHelper.perfil_requisito_paf_ecf()}"></h:commandLink><br></br>
-            <h:commandLink value="Cadastrar PAF-ECF" actionListener="#{navegacaoHelper.paf_ecf()}"></h:commandLink><br></br>
-            <h:commandLink value="Teste" actionListener="#{navegacaoHelper.teste()}"></h:commandLink><br></br>
+             <h:panelGroup >
+                            <div style="color: #ffffff; text-align: right;">
+                                <h:outputText style="color: #ffffff; text-align: right; font-size: .88em" value="#{loginController.user.nomecompleto}, perfil atual de #{loginController.perfilAtual}" rendered="#{loginController.isUser}"/>
+                                <br></br>
+                                
+                                <h:commandLink style="color: #ffffff; text-align: right;" action="#{loginController.logout}" rendered="#{loginController.isUser}">
+                                    <i class="fa fa-sign-out" aria-hidden="true">Sair</i>
+                                </h:commandLink>
+                            </div>
+                        </h:panelGroup>
         </h:form>
     </h:body>
 

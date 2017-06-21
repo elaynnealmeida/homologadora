@@ -45,6 +45,61 @@ public class NavegacaoHelper {
             e.printStackTrace();
         }
     }   
+     
+     public void integracao_paf() throws IOException {
+        ExternalContext externalContext = FacesContext.getCurrentInstance()
+                .getExternalContext();
+        try {
+            externalContext.redirect(externalContext.getRequestContextPath()
+                    + "/faces/integracao_paf.xhtml");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }   
+     
+     public void meio_geracao_arq_sintegra() throws IOException {
+        ExternalContext externalContext = FacesContext.getCurrentInstance()
+                .getExternalContext();
+        try {
+            externalContext.redirect(externalContext.getRequestContextPath()
+                    + "/faces/meio_geracao_arq_sintegra.xhtml");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }   
+     
+      public void perfil_requisito_paf_ecf() throws IOException {
+        ExternalContext externalContext = FacesContext.getCurrentInstance()
+                .getExternalContext();
+        try {
+            externalContext.redirect(externalContext.getRequestContextPath()
+                    + "/faces/perfil_requisito_paf_ecf.xhtml");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }   
+      
+      public void paf_ecf() throws IOException {
+        ExternalContext externalContext = FacesContext.getCurrentInstance()
+                .getExternalContext();
+        try {
+            externalContext.redirect(externalContext.getRequestContextPath()
+                    + "/faces/paf_ecf.xhtml");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }   
+      
+      public void teste() throws IOException {
+        ExternalContext externalContext = FacesContext.getCurrentInstance()
+                .getExternalContext();
+        try {
+            externalContext.redirect(externalContext.getRequestContextPath()
+                    + "/faces/newxhtml.xhtml");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }   
     
 
 }

@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -23,13 +25,12 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author UFT
  */
 @Entity
-@Table(name = "perfil_requisito_paf-ecf")
+@Table(name = "perfil_requisito_paf_ecf")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "PerfilRequisitoPafEcf.findAll", query = "SELECT p FROM PerfilRequisitoPafEcf p")
     , @NamedQuery(name = "PerfilRequisitoPafEcf.findById", query = "SELECT p FROM PerfilRequisitoPafEcf p WHERE p.id = :id")
     , @NamedQuery(name = "PerfilRequisitoPafEcf.findByPerfil", query = "SELECT p FROM PerfilRequisitoPafEcf p WHERE p.perfil = :perfil")
-    , @NamedQuery(name = "PerfilRequisitoPafEcf.findByUnidadeFederacao", query = "SELECT p FROM PerfilRequisitoPafEcf p WHERE p.unidadeFederacao = :unidadeFederacao")
     , @NamedQuery(name = "PerfilRequisitoPafEcf.findByDescricao", query = "SELECT p FROM PerfilRequisitoPafEcf p WHERE p.descricao = :descricao")})
 public class PerfilRequisitoPafEcf implements Serializable {
 
@@ -39,15 +40,15 @@ public class PerfilRequisitoPafEcf implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Size(max = 1)
+    @Size(max = 2147483647)
     @Column(name = "perfil")
     private String perfil;
     @Size(max = 2147483647)
-    @Column(name = "unidade_federacao")
-    private String unidadeFederacao;
-    @Size(max = 2147483647)
     @Column(name = "descricao")
     private String descricao;
+    @JoinColumn(name = "unidade_federacao", referencedColumnName = "estado_id")
+    @ManyToOne
+    private Estado unidadeFederacao;
 
     public PerfilRequisitoPafEcf() {
     }
@@ -72,20 +73,20 @@ public class PerfilRequisitoPafEcf implements Serializable {
         this.perfil = perfil;
     }
 
-    public String getUnidadeFederacao() {
-        return unidadeFederacao;
-    }
-
-    public void setUnidadeFederacao(String unidadeFederacao) {
-        this.unidadeFederacao = unidadeFederacao;
-    }
-
     public String getDescricao() {
         return descricao;
     }
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public Estado getUnidadeFederacao() {
+        return unidadeFederacao;
+    }
+
+    public void setUnidadeFederacao(Estado unidadeFederacao) {
+        this.unidadeFederacao = unidadeFederacao;
     }
 
     @Override
