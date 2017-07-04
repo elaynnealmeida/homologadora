@@ -90,6 +90,17 @@ public class NavegacaoHelper {
         }
     }   
       
+      public void aplicacoes_especiais() throws IOException {
+        ExternalContext externalContext = FacesContext.getCurrentInstance()
+                .getExternalContext();
+        try {
+            externalContext.redirect(externalContext.getRequestContextPath()
+                    + "/faces/aplicacoes_especiais.xhtml");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }   
+      
       public void teste() throws IOException {
         ExternalContext externalContext = FacesContext.getCurrentInstance()
                 .getExternalContext();
