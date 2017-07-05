@@ -99,7 +99,29 @@ public class NavegacaoHelper {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }   
+    }
+      
+      public void impressao_cupom_fiscal() throws IOException {
+        ExternalContext externalContext = FacesContext.getCurrentInstance()
+                .getExternalContext();
+        try {
+            externalContext.redirect(externalContext.getRequestContextPath()
+                    + "/faces/impressao_cupom_fiscal.xhtml");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+      
+      public void tratamento_interrupcao_cupom_fiscal() throws IOException {
+        ExternalContext externalContext = FacesContext.getCurrentInstance()
+                .getExternalContext();
+        try {
+            externalContext.redirect(externalContext.getRequestContextPath()
+                    + "/faces/tratamento_interrupcao_cupom_fiscal.xhtml");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
       
       public void teste() throws IOException {
         ExternalContext externalContext = FacesContext.getCurrentInstance()
