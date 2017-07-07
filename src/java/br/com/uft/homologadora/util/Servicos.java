@@ -44,7 +44,7 @@ public class Servicos {
         email.addTo(user.getEmail(), user.getNome()); //destinatário
         email.setFrom("elaynnealmeida@gmail.com", "Ciência da Computação - UFT"); // remetente - MODIFIQUE AQUI
         email.setSubject("senha de acesso ao sistema de homoloção PAF-ECF"); // MODIFIQUE AQUI
-        email.setMsg("login: "+user.getEmail()+" senha: "+senha); //MODIFIQUE AQUI
+        email.setMsg("login: " + user.getEmail() + " senha: " + senha); //MODIFIQUE AQUI
         email.setAuthentication("elaynnealmeida", "senha");// MODIFIQUE AQUI
         email.setSmtpPort(465);
         email.setSSL(true);
