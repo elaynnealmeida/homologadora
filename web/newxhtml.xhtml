@@ -33,79 +33,34 @@
                 <div class="row">
                     <!--Main column-->
                     <div class="col-lg-9">
-                        <h:form id="formpeafecf" enctype="multipart/form-data">
-                            <h2>
-                                <h:outputText value="PAF-ECF" />
-                            </h2>
-                            <hr>
-                              
+                       <h:form id="formtabdados3" >
 
-                                      
                                             <h:panelGrid columns="4" cellpadding="5" style="margin-bottom:10px">
-                                                <h:outputText value="Nome Comercial: " style="font-weight:bold"/>
-                                                <h:inputText id="nomecomercial" style="width: 400px" value="#{pafEcfController.instancia.nomeComercial}" size="50" required="true" />*
-                                                <p:message for="nomecomercial" />
+                                                <h:outputText value="Marca: " style="font-weight:bold"/>
+                                                <h:inputText id="marca" style="width: 400px" value="#{pafEcfController.equipamentosCompativeis.marca}" size="50" required="true" />*
+                                                <p:message for="marca" />
 
-                                                <h:outputText value="Versão: " style="font-weight:bold"/>
-                                                <h:inputText id="versao" style="width: 400px" value="#{pafEcfController.instancia.versao}" size="50" required="true" />*
-                                                <p:message for="versao" />
+                                                <h:outputText value="Modelo " style="font-weight:bold"/>
+                                                <h:inputText id="modelo" style="width: 400px" value="#{pafEcfController.equipamentosCompativeis.modelo}" size="50" required="true" />*
+                                                <p:message for="modelo" />
 
-                                                <h:outputText value="Nome do Principal arquivo Executável: " style="font-weight:bold"/>
-                                                <h:inputText id="nomeprincarqexecutavel" style="width: 400px" value="#{pafEcfController.instancia.nomeDoPrincipalArqExecutavel}" size="50" required="true" />*
-                                                <p:message for="nomeprincarqexecutavel" />
+                                                <p:commandButton class="btn btn-primary btn-sm" id="btnAdd" value="Adicionar Equipamento"  action="#{pafEcfController.addEquipamento()}" update="formtabdados3"/><br></br>
 
-                                                <h:outputText value="MD5 do Nome do Principal arquivo Executável: " style="font-weight:bold"/>
-                                                <h:inputText id="md5nomeprincarqexecutavel" style="width: 400px" value="#{pafEcfController.instancia.nomeDoPrincipalArqExecutavelMd5}" size="50" required="true" />*
-                                                <p:message for="md5nomeprincarqexecutavel" />
-
-                                                <h:outputText value="Nome do Arquivo com Relação de Arquivos Executavéis que realizam procedimentos: " style="font-weight:bold"/>
-                                                <h:inputText id="nomearqcomreldearqsexecqrealproced" style="width: 400px" value="#{pafEcfController.instancia.nomeArqComRelacaoArqsExecutaveisQRealizamProcedimentos}" size="50" required="true" />*
-                                                <p:message for="nomearqcomreldearqsexecqrealproced" />
-
-                                                <h:outputText value="MD5 do Nome do Arquivo com Relação de Arquivos Executavéis que realizam procedimentos: " style="font-weight:bold"/>
-                                                <h:inputText id="md5nomearqcomreldearqsexecqrealproced" style="width: 400px" value="#{pafEcfController.instancia.nomeArqComRelArqsExecutaveisQRealizamProcedimentosMd5}" size="50" required="true" />*
-                                                <p:message for="md5nomearqcomreldearqsexecqrealproced" />
-
-                                                <h:outputText value="Linguagem de Programação: " style="font-weight:bold"/>
-                                                <h:inputText id="linguagemdeprogramacao" style="width: 400px" value="#{pafEcfController.instancia.linguagemDeProgramacao}" size="50" required="true" />*
-                                                <p:message for="linguagemdeprogramacao" />
-
-                                                <h:outputText value="Sistema Operacional: " style="font-weight:bold"/>
-                                                <h:inputText id="so" style="width: 400px" value="#{pafEcfController.instancia.sistemaOperacional}" size="50" required="true" />*
-                                                <p:message for="so" />
-
-                                                <h:outputText value="Gerenciador de Banco de Dados: " style="font-weight:bold"/>
-                                                <h:inputText id="gbd" style="width: 400px" value="#{pafEcfController.instancia.gerenciadorBancoDados}" size="50" required="true" />*
-                                                <p:message for="gbd" />
-
-                                                <h:outputText value="Tamanho: " style="font-weight:bold"/>
-                                                <h:inputText id="tamanho" style="width: 400px" value="#{pafEcfController.instancia.tamanho}" size="50" required="true" />*
-                                                <p:message for="tamanho" />
-
-                                                <h:outputText value="Data de Geração: " style="font-weight:bold"/>
-                                                <p:inputMask id="dtgeracao"  value="#{pafEcfController.instancia.dataGeracao}" mask="99/99/9999" required="true"/>*
-                                                <p:message for="dtgeracao" />
-
-                                                <h:outputText value="Arquivo Que Contém a Relação dos Arquivos Executáveis 
-                                                              que Realizam os Procedimentos Contantes da PAF-ECF: " style="font-weight:bold"/>
-                                                <p:fileUpload value="#{pafEcfController.file}" label="Procurar" mode="simple" skinSimple="true" 
-                                                              update="msg" id="arq"    requiredMessage="Arquivo Obrigatório" 
-                                                              required="true" sizeLimit="200000"  allowTypes="/(\.|\/)(jpe?g|png)$/"
-                                                              invalidFileMessage="Somente .docx ou .txt são permitidos."
-                                                              invalidSizeMessage="Limite do tamanho do arquivo é de 2 mb."
-                                                              />
-                                                <h:message for="arq" />
+                                                <c:forEach var="equipamento" items="${pafEcfController.equipamentos}" varStatus="id">
+                                                    <h:outputText value="#{equipamento.marca} "/>  <h:outputText value="#{equipamento.modelo}"/>  
+                                                    <p:commandButton class="btn btn-primary btn-sm" id="btnEditar" value="Editar" action="#{pafEcfController.editaEquipamento(equipamento)}" update="formtabdados3"/>                                        
+                                                    <p:commandButton class="btn btn-primary btn-sm" id="btnRemove" value="Remove" action="#{pafEcfController.removeEquipamento(equipamento)}" update="formtabdados3"/> <br></br>
+                                                </c:forEach>
 
                                             </h:panelGrid>
+                                       
 
+                            
 
-
-                            </hr>
-
-                            <p:commandButton class="btn btn-primary btn-sm" id="btnSalvar" value="Salvar" actionListener="#{pafEcfController.salvar}" rendered="#{!pafEcfController.isEdit}" update="formpeafecf"/>
-                            <p:commandButton class="btn btn-primary btn-sm" id="btnAtualizar" value="Atualizar" actionListener="#{pafEcfController.atualizar}" rendered="#{pafEcfController.isEdit}" update="formpeafecf"/>
-                            <p:commandButton class="btn btn-primary btn-sm" id="btnDeletar" value="Deletar" oncomplete="PF('confirmation').show()" update="formpeafecf:confimacao"/>
-                            <p:commandButton class="btn btn-primary btn-sm" id="btnLimpar" value="Limpar" action="#{pafEcfController.limpar}" update="formpeafecf"/>
+                            <p:commandButton class="btn btn-primary btn-sm" id="btnSalvar" value="Salvar" actionListener="#{pafEcfController.salvar}" ajax="false" rendered="#{!pafEcfController.isEdit}" update="@this"/>
+                            <p:commandButton class="btn btn-primary btn-sm" id="btnAtualizar" value="Atualizar" actionListener="#{pafEcfController.atualizar}" ajax="false" rendered="#{pafEcfController.isEdit}" update="@this"/>
+                            <p:commandButton class="btn btn-primary btn-sm" id="btnDeletar" value="Deletar" oncomplete="PF('confirmation').show()" update="@this:confimacao"/>
+                            <p:commandButton class="btn btn-primary btn-sm" id="btnLimpar" value="Limpar" action="#{pafEcfController.limpar}" update="@this"/>
                             <br></br><br></br>
 
                             <hr>
@@ -129,7 +84,7 @@
                                                          />
                                         </p:outputPanel>
                                     </f:facet>
-                                    <p:ajax event="rowSelect" listener="#{pafEcfController.onRowSelect}" update="formpeafecf" />
+                                    <p:ajax event="rowSelect" listener="#{pafEcfController.onRowSelect}" update="@this" />
                                     <p:column headerText="Id">
                                         <h:outputText value="#{var.id}" />
                                     </p:column>
@@ -140,7 +95,13 @@
                                     
                                     <p:column headerText="Nome do Responsável" filterBy="#{var.nomeResponsavel}" filterStyle="display:none" >
                                         <h:outputText value="#{var.nomeResponsavel}" />
-                                    </p:column>    
+                                    </p:column>   
+                                    
+                                    <p:column headerText="Arquivo">
+                                        <p:commandButton class="btn btn-primary btn-md" value="Baixar Arquivo" title="Baixar arquivo" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);">
+                                            <p:fileDownload value="#{pafEcfController.download(var)}" />
+                                        </p:commandButton> 
+                                    </p:column>   
 
                                 </p:dataTable>
                             </hr>
@@ -150,7 +111,7 @@
                             <p:confirmDialog id="confimacao" message="Deseja mesmo excluir?" showEffect="bounce"
                                              hideEffect="explode" header="Confirmação" severity="info" widgetVar="confirmation">
 
-                                <p:commandButton value="Sim" update="formpeafecf" onclick="PF('confirmation').hide()"
+                                <p:commandButton value="Sim" update="@this" onclick="PF('confirmation').hide()"
                                                  action="#{pafEcfController.deletar}" />
 
                                 <p:commandButton value="Não" onclick="PF('confirmation').hide(); return true;" />

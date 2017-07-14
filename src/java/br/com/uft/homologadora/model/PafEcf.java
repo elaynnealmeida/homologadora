@@ -8,13 +8,17 @@ package br.com.uft.homologadora.model;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -103,7 +107,7 @@ public class PafEcf implements Serializable {
     private String rgResponsavel;
     @OneToMany(mappedBy = "pafEcfId")
     private List<IsPedGeramNfIntegPaf> isPedGeramNfIntegPafList;
-    @OneToMany(mappedBy = "pafEcfId")
+    @OneToMany(mappedBy = "pafEcfId",fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
     private List<EquipamentosEcfCompativeisPafEcf> equipamentosEcfCompativeisPafEcfList;
     @JoinColumn(name = "is_ped_geram_nf_integrados_id", referencedColumnName = "id")
     @ManyToOne
@@ -114,30 +118,54 @@ public class PafEcf implements Serializable {
     @JoinColumn(name = "isgrepmra_id", referencedColumnName = "id")
     @ManyToOne
     private IsgrepmraPafEcf isgrepmraId;
-    @OneToMany(mappedBy = "pafId")
-    private List<PafFormaImpressao> pafFormaImpressaoList;
+    //@OneToMany(mappedBy = "pafId")
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+    @JoinTable(name = "paf_forma_impressao",
+            joinColumns = @JoinColumn(name = "paf_id"),
+            inverseJoinColumns = @JoinColumn(name = "forma_impressao_id"))
+    private List<ImpressaoCupomFiscal> pafFormaImpressaoList;
     @OneToMany(mappedBy = "pafEcfId")
     private List<IsPedIntegradosPaf> isPedIntegradosPafList;
     @OneToMany(mappedBy = "padEcfId")
     private List<PafEcfPerfis> pafEcfPerfisList;
-    @OneToMany(mappedBy = "pafId")
-    private List<PafAplicacoesEspeciais> pafAplicacoesEspeciaisList;
-    @OneToMany(mappedBy = "pafEcfId")
-    private List<PafTipoDesenvolvimento> pafTipoDesenvolvimentoList;
-    @OneToMany(mappedBy = "pafId")
-    private List<PafTratamentoInterrupcaoDecf> pafTratamentoInterrupcaoDecfList;
+    //@OneToMany(mappedBy = "pafId")
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+    @JoinTable(name = "paf_aplicacoes_especiais",
+            joinColumns = @JoinColumn(name = "paf_id"),
+            inverseJoinColumns = @JoinColumn(name = "aplicacoes_especiais_id"))
+    private List<AplicacoesEspeciais> pafAplicacoesEspeciaisList;
+    //@OneToMany(mappedBy = "pafEcfId")
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+    @JoinTable(name = "paf_tipo_desenvolvimento",
+            joinColumns = @JoinColumn(name = "paf_ecf_id"),
+            inverseJoinColumns = @JoinColumn(name = "tp_desenvolvimento_id"))
+    private List<TipoDesenvolvimento> pafTipoDesenvolvimentoList;
+    //@OneToMany(mappedBy = "pafId")
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+    @JoinTable(name = "paf_tratamento_interrupcao_decf",
+            joinColumns = @JoinColumn(name = "paf_id"),
+            inverseJoinColumns = @JoinColumn(name = "tratamento_interrupcao_id"))
+    private List<TratamentoInterrupcaoCupomFiscal> pafTratamentoInterrupcaoDecfList;
     @OneToMany(mappedBy = "pafId")
     private List<PafTpFuncionamento> pafTpFuncionamentoList;
     @OneToMany(mappedBy = "pafEcfId")
     private List<PafEcfArquivosExecutaveis> pafEcfArquivosExecutaveisList;
-    @OneToMany(mappedBy = "pafId")
-    private List<PafMeioGerarArqSintegra> pafMeioGerarArqSintegraList;
+    //@OneToMany(mappedBy = "pafId")
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+    @JoinTable(name = "paf_meio_gerar_arq_sintegra",
+            joinColumns = @JoinColumn(name = "paf_id"),
+            inverseJoinColumns = @JoinColumn(name = "meio_gerar_arq_sintegra_id"))
+    private List<MeioGeracaoArqSintegra> pafMeioGerarArqSintegraList;
     @OneToMany(mappedBy = "pafEcf")
     private List<Laudo> laudoList;
     @OneToMany(mappedBy = "pafEcfId")
     private List<PafEcfOutrosArquivos> pafEcfOutrosArquivosList;
-    @OneToMany(mappedBy = "pafId")
-    private List<PafIntegracaoDoPaf> pafIntegracaoDoPafList;
+    //@OneToMany(mappedBy = "pafId")
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+    @JoinTable(name = "paf_integracao_do_paf",
+            joinColumns = @JoinColumn(name = "paf_id"),
+            inverseJoinColumns = @JoinColumn(name = "integracao_paf_id"))
+    private List<IntegracaoPaf> pafIntegracaoDoPafList;
     @OneToMany(mappedBy = "pafEcfId")
     private List<IsgrepmraPafEcf> isgrepmraPafEcfList;
 
@@ -319,11 +347,11 @@ public class PafEcf implements Serializable {
     }
 
     @XmlTransient
-    public List<PafFormaImpressao> getPafFormaImpressaoList() {
+    public List<ImpressaoCupomFiscal> getPafFormaImpressaoList() {
         return pafFormaImpressaoList;
     }
 
-    public void setPafFormaImpressaoList(List<PafFormaImpressao> pafFormaImpressaoList) {
+    public void setPafFormaImpressaoList(List<ImpressaoCupomFiscal> pafFormaImpressaoList) {
         this.pafFormaImpressaoList = pafFormaImpressaoList;
     }
 
@@ -346,29 +374,29 @@ public class PafEcf implements Serializable {
     }
 
     @XmlTransient
-    public List<PafAplicacoesEspeciais> getPafAplicacoesEspeciaisList() {
+    public List<AplicacoesEspeciais> getPafAplicacoesEspeciaisList() {
         return pafAplicacoesEspeciaisList;
     }
 
-    public void setPafAplicacoesEspeciaisList(List<PafAplicacoesEspeciais> pafAplicacoesEspeciaisList) {
+    public void setPafAplicacoesEspeciaisList(List<AplicacoesEspeciais> pafAplicacoesEspeciaisList) {
         this.pafAplicacoesEspeciaisList = pafAplicacoesEspeciaisList;
     }
 
     @XmlTransient
-    public List<PafTipoDesenvolvimento> getPafTipoDesenvolvimentoList() {
+    public List<TipoDesenvolvimento> getPafTipoDesenvolvimentoList() {
         return pafTipoDesenvolvimentoList;
     }
 
-    public void setPafTipoDesenvolvimentoList(List<PafTipoDesenvolvimento> pafTipoDesenvolvimentoList) {
+    public void setPafTipoDesenvolvimentoList(List<TipoDesenvolvimento> pafTipoDesenvolvimentoList) {
         this.pafTipoDesenvolvimentoList = pafTipoDesenvolvimentoList;
     }
 
     @XmlTransient
-    public List<PafTratamentoInterrupcaoDecf> getPafTratamentoInterrupcaoDecfList() {
+    public List<TratamentoInterrupcaoCupomFiscal> getPafTratamentoInterrupcaoDecfList() {
         return pafTratamentoInterrupcaoDecfList;
     }
 
-    public void setPafTratamentoInterrupcaoDecfList(List<PafTratamentoInterrupcaoDecf> pafTratamentoInterrupcaoDecfList) {
+    public void setPafTratamentoInterrupcaoDecfList(List<TratamentoInterrupcaoCupomFiscal> pafTratamentoInterrupcaoDecfList) {
         this.pafTratamentoInterrupcaoDecfList = pafTratamentoInterrupcaoDecfList;
     }
 
@@ -391,11 +419,11 @@ public class PafEcf implements Serializable {
     }
 
     @XmlTransient
-    public List<PafMeioGerarArqSintegra> getPafMeioGerarArqSintegraList() {
+    public List<MeioGeracaoArqSintegra> getPafMeioGerarArqSintegraList() {
         return pafMeioGerarArqSintegraList;
     }
 
-    public void setPafMeioGerarArqSintegraList(List<PafMeioGerarArqSintegra> pafMeioGerarArqSintegraList) {
+    public void setPafMeioGerarArqSintegraList(List<MeioGeracaoArqSintegra> pafMeioGerarArqSintegraList) {
         this.pafMeioGerarArqSintegraList = pafMeioGerarArqSintegraList;
     }
 
@@ -418,11 +446,11 @@ public class PafEcf implements Serializable {
     }
 
     @XmlTransient
-    public List<PafIntegracaoDoPaf> getPafIntegracaoDoPafList() {
+    public List<IntegracaoPaf> getPafIntegracaoDoPafList() {
         return pafIntegracaoDoPafList;
     }
 
-    public void setPafIntegracaoDoPafList(List<PafIntegracaoDoPaf> pafIntegracaoDoPafList) {
+    public void setPafIntegracaoDoPafList(List<IntegracaoPaf> pafIntegracaoDoPafList) {
         this.pafIntegracaoDoPafList = pafIntegracaoDoPafList;
     }
 
