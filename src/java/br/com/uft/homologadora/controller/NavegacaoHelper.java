@@ -134,6 +134,17 @@ public class NavegacaoHelper {
         }
     }
       
+      public void tipo_funcionamento() throws IOException {
+        ExternalContext externalContext = FacesContext.getCurrentInstance()
+                .getExternalContext();
+        try {
+            externalContext.redirect(externalContext.getRequestContextPath()
+                    + "/faces/tipo_funcionamento.xhtml");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+      
       public void teste() throws IOException {
         ExternalContext externalContext = FacesContext.getCurrentInstance()
                 .getExternalContext();

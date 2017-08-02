@@ -8,11 +8,15 @@ package br.com.uft.homologadora.model;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -43,7 +47,11 @@ public class TipoFuncionamento implements Serializable {
     @Size(max = 2147483647)
     @Column(name = "descricao")
     private String descricao;
-    @OneToMany(mappedBy = "tpFuncionamentoId")
+    //@OneToMany(mappedBy = "tpFuncionamentoId")
+    @ManyToMany(cascade=CascadeType.REMOVE)
+    @JoinTable(name="paf_tp_funcionamento", 
+               joinColumns=  @JoinColumn( name = "tp_funcionamento_id" ), 
+               inverseJoinColumns= @JoinColumn(name = "paf_id")) 
     private List<PafTpFuncionamento> pafTpFuncionamentoList;
 
     public TipoFuncionamento() {

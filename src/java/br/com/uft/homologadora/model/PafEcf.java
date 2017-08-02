@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package br.com.uft.homologadora.model;
 
 import java.io.Serializable;
@@ -146,8 +142,12 @@ public class PafEcf implements Serializable {
             joinColumns = @JoinColumn(name = "paf_id"),
             inverseJoinColumns = @JoinColumn(name = "tratamento_interrupcao_id"))
     private List<TratamentoInterrupcaoCupomFiscal> pafTratamentoInterrupcaoDecfList;
-    @OneToMany(mappedBy = "pafId")
-    private List<PafTpFuncionamento> pafTpFuncionamentoList;
+    //@OneToMany(mappedBy = "pafId")
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+    @JoinTable(name = "paf_tp_funcionamento",
+            joinColumns = @JoinColumn(name = "paf_id"),
+            inverseJoinColumns = @JoinColumn(name = "tp_funcionamento_id"))
+    private List<TipoFuncionamento> pafTpFuncionamentoList;
     @OneToMany(mappedBy = "pafEcfId")
     private List<PafEcfArquivosExecutaveis> pafEcfArquivosExecutaveisList;
     //@OneToMany(mappedBy = "pafId")
@@ -401,11 +401,11 @@ public class PafEcf implements Serializable {
     }
 
     @XmlTransient
-    public List<PafTpFuncionamento> getPafTpFuncionamentoList() {
+    public List<TipoFuncionamento> getPafTpFuncionamentoList() {
         return pafTpFuncionamentoList;
     }
 
-    public void setPafTpFuncionamentoList(List<PafTpFuncionamento> pafTpFuncionamentoList) {
+    public void setPafTpFuncionamentoList(List<TipoFuncionamento> pafTpFuncionamentoList) {
         this.pafTpFuncionamentoList = pafTpFuncionamentoList;
     }
 

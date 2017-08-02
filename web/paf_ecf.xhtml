@@ -146,6 +146,24 @@
                                         <br></br><br></br>
 
                                     </b:tab>
+                                    
+                                    <b:tab title="Dados 3" id="tabdados3">
+
+                                        <h:panelGrid columns="4" cellpadding="5" style="margin-bottom:10px">
+                                            <p:outputLabel    value="Tipo de Funcionamento:" />
+                                            <h:selectManyCheckbox  id="tpfuncionamento" value="#{pafEcfController.selectedTpFuncionamento}"  
+                                                                   converter="TipoFuncionamentoConverter"
+                                                                   layout="pageDirection"
+                                                                   style="padding: 5px"
+                                                                   >
+                                                <f:selectItems value="#{pafEcfController.tpFuncionamento}" var="tpfuncionamento" itemLabel="#{tpfuncionamento}" itemValue="#{tpfuncionamento}" />
+                                            </h:selectManyCheckbox>
+                                        </h:panelGrid>
+                                        <p:commandButton class="btn btn-primary btn-sm" id="btnAtualizar3" value="Atualizar" action="#{pafEcfController.salvarTpFuncionamento()}"  rendered="#{pafEcfController.isEdit}" update="formpeafecf"/>
+                                        <p:commandButton class="btn btn-primary btn-sm" id="btnLimpar3" value="Limpar" action="#{pafEcfController.limparTpFuncionamento()}" update="formpeafecf"/>
+                                        <br></br><br></br>
+
+                                    </b:tab>
 
                                     <b:tab title="Dados 4" id="tabdados4">
 

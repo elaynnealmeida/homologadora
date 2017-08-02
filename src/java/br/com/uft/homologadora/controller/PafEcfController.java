@@ -7,6 +7,7 @@ import br.com.uft.homologadora.dao.IntegracaoPafDAO;
 import br.com.uft.homologadora.dao.MeioGeracaoArqSintegraDAO;
 import br.com.uft.homologadora.dao.PafEcfDAO;
 import br.com.uft.homologadora.dao.TipoDesenvolvimentoDAO;
+import br.com.uft.homologadora.dao.TipoFuncionamentoDAO;
 import br.com.uft.homologadora.dao.TratamentoInterrupcaoCupomFiscalDAO;
 import br.com.uft.homologadora.model.AplicacoesEspeciais;
 import br.com.uft.homologadora.model.EquipamentosEcfCompativeisPafEcf;
@@ -15,6 +16,7 @@ import br.com.uft.homologadora.model.IntegracaoPaf;
 import br.com.uft.homologadora.model.MeioGeracaoArqSintegra;
 import br.com.uft.homologadora.model.PafEcf;
 import br.com.uft.homologadora.model.TipoDesenvolvimento;
+import br.com.uft.homologadora.model.TipoFuncionamento;
 import br.com.uft.homologadora.model.TratamentoInterrupcaoCupomFiscal;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -69,6 +71,9 @@ public class PafEcfController implements Serializable {
     private List<AplicacoesEspeciais> selectedAplicacoesEspeciais;
     private List<SelectItem> aplicacoesEspeciais;
     private AplicacoesEspeciaisDAO aplicacoesEspeciaisDao;
+    private List<TipoFuncionamento> selectedTpFuncionamento;
+    private List<SelectItem> tpFuncionamento;
+    private TipoFuncionamentoDAO tpFuncionamentoDao;
 
     @PostConstruct
     public void init() {
@@ -106,6 +111,11 @@ public class PafEcfController implements Serializable {
         this.aplicacoesEspeciaisDao = new AplicacoesEspeciaisDAO();
         this.aplicacoesEspeciais = listarAplicacoesEspeciais();
         this.selectedAplicacoesEspeciais = new ArrayList<AplicacoesEspeciais>();
+        
+        //Tipo de Funcionamento
+        this.tpFuncionamentoDao = new TipoFuncionamentoDAO();
+        this.tpFuncionamento = listarTpFuncionamento();
+        this.selectedTpFuncionamento = new ArrayList<TipoFuncionamento>();
 
         listar();
     }
@@ -131,6 +141,8 @@ public class PafEcfController implements Serializable {
         this.selectedTratamentoInterrupcaoCupomFiscal = new ArrayList<TratamentoInterrupcaoCupomFiscal>();
 
         this.selectedAplicacoesEspeciais = new ArrayList<AplicacoesEspeciais>();
+        
+        this.selectedTpFuncionamento = new ArrayList<TipoFuncionamento>();
     }
 
     public void limparResponsavel() {
@@ -166,6 +178,10 @@ public class PafEcfController implements Serializable {
 
     public void limparAplicacoesEspeciais() {
         this.selectedAplicacoesEspeciais = new ArrayList<AplicacoesEspeciais>();
+    }
+    
+    public void limparTpFuncionamento() {
+        this.selectedTpFuncionamento = new ArrayList<TipoFuncionamento>();
     }
 
     public void salvar() {
@@ -243,6 +259,7 @@ public class PafEcfController implements Serializable {
         this.selectedImpressaoCupomFiscal.addAll(this.instancia.getPafFormaImpressaoList());
         this.selectedTratamentoInterrupcaoCupomFiscal.addAll(this.instancia.getPafTratamentoInterrupcaoDecfList());
         this.selectedAplicacoesEspeciais.addAll(this.instancia.getPafAplicacoesEspeciaisList());
+        this.selectedTpFuncionamento.addAll(this.instancia.getPafTpFuncionamentoList());
         this.isEdit = true;
     }
 
@@ -324,11 +341,12 @@ public class PafEcfController implements Serializable {
 
     //Tipo desenvolvimento
     public List<SelectItem> listarTpDesenvolvimento() {
-        //System.out.println("entrou no listar tags: ");
+        //System.out.println("entrou no listarTpDesenvolvimento: ");
         List<SelectItem> toReturn = new ArrayList<SelectItem>();
         List<TipoDesenvolvimento> result = new ArrayList<TipoDesenvolvimento>();
         result = TpDesenvolvimentoDao.listarTodos();
         for (int i = 0; i < result.size(); i++) {
+            System.out.println("result: "+result.get(i).getDescricao());
             toReturn.add(new SelectItem(result.get(i), result.get(i).getDescricao()));
         }
         return toReturn;
@@ -424,6 +442,22 @@ public class PafEcfController implements Serializable {
         dao.atualizar(instancia);
     }
 
+    //Tipo de Funcionamento
+    public List<SelectItem> listarTpFuncionamento() {
+        //System.out.println("entrou no listar tags: ");
+        List<SelectItem> toReturn = new ArrayList<SelectItem>();
+        List<TipoFuncionamento> result = new ArrayList<TipoFuncionamento>();
+        result = tpFuncionamentoDao.listarTodos();
+        for (int i = 0; i < result.size(); i++) {
+            toReturn.add(new SelectItem(result.get(i), result.get(i).getDescricao()));
+        }
+        return toReturn;
+    }
+
+    public void salvarTpFuncionamento() {
+        instancia.setPafTpFuncionamentoList(selectedTpFuncionamento);
+        dao.atualizar(instancia);
+    }
     public PafEcf getInstancia() {
         return instancia;
     }
@@ -582,6 +616,22 @@ public class PafEcfController implements Serializable {
 
     public void setAplicacoesEspeciais(List<SelectItem> aplicacoesEspeciais) {
         this.aplicacoesEspeciais = aplicacoesEspeciais;
+    }
+
+    public List<TipoFuncionamento> getSelectedTpFuncionamento() {
+        return selectedTpFuncionamento;
+    }
+
+    public void setSelectedTpFuncionamento(List<TipoFuncionamento> selectedTpFuncionamento) {
+        this.selectedTpFuncionamento = selectedTpFuncionamento;
+    }
+
+    public List<SelectItem> getTpFuncionamento() {
+        return tpFuncionamento;
+    }
+
+    public void setTpFuncionamento(List<SelectItem> tpFuncionamento) {
+        this.tpFuncionamento = tpFuncionamento;
     }
 
 }
